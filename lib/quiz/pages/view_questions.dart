@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_quiz_app/data/question.dart';
+import 'package:flutter_quiz_app/menu/drawer_menu.dart';
 
 // Example code:
 // https://github.com/flutter/gallery/blob/master/lib/demos/material/data_table_demo.dart
@@ -98,6 +99,7 @@ class _QuestionListState extends State<QuestionList> {
           ],
         ),
       ),
+      drawer: DrawerMenu(),
     );
   }
 }
