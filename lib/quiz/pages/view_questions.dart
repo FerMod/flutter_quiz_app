@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_quiz_app/data/question.dart';
+import 'package:flutter_quiz_app/data/models.dart';
 import 'package:flutter_quiz_app/menu/drawer_menu.dart';
 
 // Example code:
@@ -55,43 +55,39 @@ class _QuestionListState extends State<QuestionList> {
               sortAscending: _sortAscending,
               columns: [
                 DataColumn(
-                  label: Text('email'),
-                  onSort: (columnIndex, ascending) => _sort<String>((q) => q.email, columnIndex, ascending),
+                  label: Text('Id'),
+                  numeric: true,
+                  onSort: (columnIndex, ascending) => _sort<num>((q) => q.id, columnIndex, ascending),
                 ),
                 DataColumn(
-                  label: Text('statement'),
-                  numeric: true,
-                  onSort: (columnIndex, ascending) => _sort<String>((q) => q.statement, columnIndex, ascending),
+                  label: Text('Question'),
+                  //onSort: (columnIndex, ascending) => _sort<String>((q) => q.text, columnIndex, ascending),
                 ),
                 DataColumn(
-                  label: Text('correctAnswer'),
+                  label: Text('Difficulty'),
                   numeric: true,
+                  onSort: (columnIndex, ascending) => _sort<num>((q) => q.difficulty, columnIndex, ascending),
+                ),
+                DataColumn(
+                  label: Text('Rating'),
+                  numeric: true,
+                  onSort: (columnIndex, ascending) => _sort<num>((q) => q.rating, columnIndex, ascending),
+                ),
+                DataColumn(
+                  label: Text('Subject'),
+                  onSort: (columnIndex, ascending) => _sort<String>((q) => q.subject, columnIndex, ascending),
+                ),
+                // DataColumn(
+                //   label: Text('Image'),
+                //   //onSort: (columnIndex, ascending) => _sort<String>((q) => q.image, columnIndex, ascending),
+                // ),
+                DataColumn(
+                  label: Text('Correct Answer'),
                   //onSort: (columnIndex, ascending) => _sort<String>((q) => q.correctAnswer, columnIndex, ascending),
                 ),
                 DataColumn(
-                  label: Text('incorrectAnswer'),
-                  numeric: true,
+                  label: Text('Incorrect Answers'),
                   //onSort: (columnIndex, ascending) => _sort<String>((q) => q.incorrectAnswer, columnIndex, ascending),
-                ),
-                DataColumn(
-                  label: Text('complexity'),
-                  numeric: true,
-                  onSort: (columnIndex, ascending) => _sort<num>((q) => q.complexity, columnIndex, ascending),
-                ),
-                DataColumn(
-                  label: Text('subject'),
-                  numeric: true,
-                  onSort: (columnIndex, ascending) => _sort<String>((q) => q.subject, columnIndex, ascending),
-                ),
-                DataColumn(
-                  label: Text('img'),
-                  numeric: true,
-                  //onSort: (columnIndex, ascending) => _sort<String>((q) => q.img, columnIndex, ascending),
-                ),
-                DataColumn(
-                  label: Text('rating'),
-                  numeric: true,
-                  onSort: (columnIndex, ascending) => _sort<num>((q) => q.rating, columnIndex, ascending),
                 ),
               ],
               source: _questionsDataSource,
@@ -132,14 +128,14 @@ class _QuestionsDataSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(Text(question.email)),
-        DataCell(Text(question.statement)),
-        DataCell(Text(question.correctAnswer)),
-        DataCell(Text("${question.incorrectAnswer[0]}, ${question.incorrectAnswer[1]}, ${question.incorrectAnswer[2]}")),
-        DataCell(Text("${question.complexity}")),
+        DataCell(Text(question.id.toString())),
+        DataCell(Text(question.text)),
+        DataCell(Text(question.difficulty.toString())),
+        DataCell(Text(question.rating.toString())),
         DataCell(Text(question.subject)),
-        DataCell(Text(question.img)),
-        DataCell(Text("${question.rating}")),
+        // DataCell(Text(question.image)),
+        DataCell(Text(question.options.firstWhere((e) => e.correct).value)),
+        DataCell(Text(question.options.where((e) => !e.correct).map((e) => e.value).join(', '))),
       ],
     );
   }
@@ -156,24 +152,40 @@ class _QuestionsDataSource extends DataTableSource {
   List<Question> _createQuestions() {
     return <Question>[
       Question(
-        email: "Correo123@ikasle.ehu.eus",
-        statement: "Is this a question?",
-        correctAnswer: "Yes",
-        incorrectAnswer: ["No", "Always no", "Yes when there is not"],
-        complexity: 10,
-        subject: "Test",
-        img: "",
-        rating: 9,
+        id: 1,
+        text: 'Is this a question?',
+        difficulty: 1,
+        rating: 10,
+        subject: 'Test',
+        options: [
+          Option(value: 'Yes', correct: true),
+          Option(value: 'No'),
+        ],
       ),
       Question(
-        email: "Correo123@ikasle.ehu.eus",
-        statement: "Test question?",
-        correctAnswer: "It is",
-        incorrectAnswer: ["Maybe", "Always", "It isn't"],
-        complexity: 2,
-        subject: "Test",
-        img: "",
-        rating: 2,
+        id: 2,
+        text: 'Another question in the quiz.',
+        difficulty: 4,
+        rating: 7,
+        subject: 'Test',
+        options: [
+          Option(value: 'Maybe', correct: true),
+          Option(value: 'Yes'),
+          Option(value: 'No'),
+        ],
+      ),
+      Question(
+        id: 3,
+        text: 'Test question?',
+        difficulty: 10,
+        rating: 1,
+        subject: 'Test',
+        options: [
+          Option(value: 'It is', correct: true),
+          Option(value: 'Maybe'),
+          Option(value: 'Always'),
+          Option(value: 'It isn\'t'),
+        ],
       ),
     ];
   }
