@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quiz_app/data/models.dart';
 import 'package:flutter_quiz_app/menu/drawer_menu.dart';
 
 class QuestionsDataTable extends StatefulWidget {
@@ -47,11 +48,44 @@ class _DataTableState extends State<QuestionsDataTable> {
             sortColumnIndex: _sortColumnIndex,
             sortAscending: _sortAscending,
             columns: [
-              DataColumn(label: Text('Header A'), onSort: (columnIndex, ascending) => _sort<String>((r) => r.valueA, columnIndex, ascending)),
-              DataColumn(label: Text('Header B'), onSort: (columnIndex, ascending) => _sort<String>((r) => r.valueB, columnIndex, ascending)),
-              DataColumn(label: Text('Header C'), onSort: (columnIndex, ascending) => _sort<String>((r) => r.valueC, columnIndex, ascending)),
-              DataColumn(label: Text('Header D'), numeric: true, onSort: (columnIndex, ascending) => _sort<num>((r) => r.valueD, columnIndex, ascending)),
-            ],
+                DataColumn(
+                  label: Text('Id'),
+                  numeric: true,
+                  onSort: (columnIndex, ascending) => _sort<num>((q) => q.id, columnIndex, ascending),
+                ),
+                DataColumn(
+                  label: Text('Question'),
+                  numeric: true,
+                  onSort: (columnIndex, ascending) => _sort<String>((q) => q.text, columnIndex, ascending),
+                ),
+                DataColumn(
+                  label: Text('Difficulty'),
+                  numeric: true,
+                  onSort: (columnIndex, ascending) => _sort<num>((q) => q.difficulty, columnIndex, ascending),
+                ),
+                DataColumn(
+                  label: Text('Subject'),
+                  numeric: true,
+                  onSort: (columnIndex, ascending) => _sort<String>((q) => q.subject, columnIndex, ascending),
+                ),
+                DataColumn(
+                  label: Text('Rating'),
+                  numeric: true,
+                  onSort: (columnIndex, ascending) => _sort<num>((q) => q.rating, columnIndex, ascending),
+                ),
+                // DataColumn(
+                //   label: Text('Image'),
+                //   //onSort: (columnIndex, ascending) => _sort<String>((q) => q.image, columnIndex, ascending),
+                // ),
+                DataColumn(
+                  label: Text('Correct Answer'),
+                  //onSort: (columnIndex, ascending) => _sort<String>((q) => q.correctAnswer, columnIndex, ascending),
+                ),
+                DataColumn(
+                  label: Text('Incorrect Answers'),
+                  //onSort: (columnIndex, ascending) => _sort<String>((q) => q.incorrectAnswer, columnIndex, ascending),
+                ),
+              ],
             source: _dataSource,
           ),
         ],
@@ -123,10 +157,14 @@ class _DataSource extends DataTableSource {
       },
       */
       cells: [
-        DataCell(Text(row.valueA)),
-        DataCell(Text(row.valueB)),
-        DataCell(Text(row.valueC)),
-        DataCell(Text(row.valueD.toString())),
+        DataCell(Text(row.id.toString())),
+        DataCell(Text(row.text)),
+        DataCell(Text(row.difficulty.toString())),
+        DataCell(Text(row.rating.toString())),
+        DataCell(Text(row.subject)),
+        // DataCell(Text(row.image)),
+        DataCell(Text(row.options.firstWhere((e) => e.correct).value)),
+        DataCell(Text(row.options.where((e) => !e.correct).map((e) => e.value).join(', '))),
       ],
     );
   }
@@ -139,4 +177,46 @@ class _DataSource extends DataTableSource {
 
   @override
   int get selectedRowCount => _selectedCount;
+
+  List<Question> _createQuestions() {
+    return <Question>[
+      Question(
+        id: 1,
+        text: 'Is this a question?',
+        difficulty: 1,
+        rating: 10,
+        subject: 'Test',
+        options: [
+          Option(value: 'Yes', correct: true),
+          Option(value: 'No'),
+        ],
+      ),
+      Question(
+        id: 2,
+        text: 'Another question in the quiz.',
+        difficulty: 4,
+        rating: 7,
+        subject: 'Test',
+        options: [
+          Option(value: 'Maybe', correct: true),
+          Option(value: 'Yes'),
+          Option(value: 'No'),
+        ],
+      ),
+      Question(
+        id: 3,
+        text: 'Test question?',
+        difficulty: 10,
+        rating: 1,
+        subject: 'Test',
+        options: [
+          Option(value: 'It is', correct: true),
+          Option(value: 'Maybe'),
+          Option(value: 'Always'),
+          Option(value: 'It isn\'t'),
+        ],
+      ),
+    ];
+  }
+  
 }
