@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quiz_app/quiz/pages/view_questions.dart';
-import '../quiz/pages/test_route01.dart';
+import '../quiz/pages/make_quiz.dart';
 
 class DrawerMenu extends StatelessWidget {
   @override
@@ -31,7 +31,7 @@ class DrawerMenu extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => FirstRoute()),
+                MaterialPageRoute(builder: (context) => MakeQuiz()),
               );
             },
           ),
