@@ -1,6 +1,8 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_quiz_app/data/db.dart';
 import 'package:flutter_quiz_app/data/models.dart';
 import 'package:flutter_quiz_app/menu/drawer_menu.dart';
 
@@ -18,94 +20,112 @@ class _QuestionListState extends State<QuestionList> {
   int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
   int _sortColumnIndex;
   bool _sortAscending = true;
-  _QuestionsDataSource _questionsDataSource;
+
+  _DataSource _dataSource;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _questionsDataSource ??= _QuestionsDataSource(context);
+    _dataSource ??= _DataSource(context);
   }
 
   void _sort<T>(Comparable<T> Function(Question q) getField, int columnIndex, bool ascending) {
-    _questionsDataSource._sort<T>(getField, ascending);
+    _dataSource._sort<T>(getField, ascending);
     setState(() {
       _sortColumnIndex = columnIndex;
       _sortAscending = ascending;
     });
   }
 
+  Future<List<Question>> _fetchData() async {
+    final DBProvider _db = DBProvider.instance;
+    return await _db.getAllQuestions();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text("Text"),
-      ),
-      body: Scrollbar(
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            PaginatedDataTable(
-              header: Text('Table Header'),
-              rowsPerPage: _rowsPerPage,
-              onRowsPerPageChanged: (value) => setState(() {
-                _rowsPerPage = value;
-              }),
-              sortColumnIndex: _sortColumnIndex,
-              sortAscending: _sortAscending,
-              columns: [
-                DataColumn(
-                  label: Text('Id'),
-                  numeric: true,
-                  onSort: (columnIndex, ascending) => _sort<num>((q) => q.id, columnIndex, ascending),
-                ),
-                DataColumn(
-                  label: Text('Question'),
-                  //onSort: (columnIndex, ascending) => _sort<String>((q) => q.text, columnIndex, ascending),
-                ),
-                DataColumn(
-                  label: Text('Difficulty'),
-                  numeric: true,
-                  onSort: (columnIndex, ascending) => _sort<num>((q) => q.difficulty, columnIndex, ascending),
-                ),
-                DataColumn(
-                  label: Text('Rating'),
-                  numeric: true,
-                  onSort: (columnIndex, ascending) => _sort<num>((q) => q.rating, columnIndex, ascending),
-                ),
-                DataColumn(
-                  label: Text('Subject'),
-                  onSort: (columnIndex, ascending) => _sort<String>((q) => q.subject, columnIndex, ascending),
-                ),
-                // DataColumn(
-                //   label: Text('Image'),
-                //   //onSort: (columnIndex, ascending) => _sort<String>((q) => q.image, columnIndex, ascending),
-                // ),
-                DataColumn(
-                  label: Text('Correct Answer'),
-                  //onSort: (columnIndex, ascending) => _sort<String>((q) => q.correctAnswer, columnIndex, ascending),
-                ),
-                DataColumn(
-                  label: Text('Incorrect Answers'),
-                  //onSort: (columnIndex, ascending) => _sort<String>((q) => q.incorrectAnswer, columnIndex, ascending),
-                ),
-              ],
-              source: _questionsDataSource,
-            ),
-          ],
-        ),
+        title: Text('Data Tables'),
       ),
       drawer: DrawerMenu(),
+      body: Scrollbar(
+        child: FutureBuilder<List<Question>>(
+            future: _fetchData(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                _dataSource.updateData(snapshot.data);
+                return ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: [
+                    PaginatedDataTable(
+                      header: Text('Table Header'),
+                      rowsPerPage: _rowsPerPage,
+                      onRowsPerPageChanged: (value) => setState(() {
+                        _rowsPerPage = value;
+                      }),
+                      sortColumnIndex: _sortColumnIndex,
+                      sortAscending: _sortAscending,
+                      columns: [
+                        DataColumn(
+                          label: Text('Id'),
+                          numeric: true,
+                          onSort: (columnIndex, ascending) => _sort<num>((q) => q.id, columnIndex, ascending),
+                        ),
+                        DataColumn(
+                          label: Text('Question'),
+                        ),
+                        DataColumn(
+                          label: Text('Difficulty'),
+                          numeric: true,
+                          onSort: (columnIndex, ascending) => _sort<num>((q) => q.difficulty, columnIndex, ascending),
+                        ),
+                        DataColumn(
+                          label: Text('Rating'),
+                          numeric: true,
+                          onSort: (columnIndex, ascending) => _sort<num>((q) => q.rating, columnIndex, ascending),
+                        ),
+                        DataColumn(
+                          label: Text('Subject'),
+                          onSort: (columnIndex, ascending) => _sort<String>((q) => q.subject, columnIndex, ascending),
+                        ),
+                        // DataColumn(
+                        //   label: Text('Image'),
+                        // ),
+                        DataColumn(
+                          label: Text('Correct Answer'),
+                        ),
+                        DataColumn(
+                          label: Text('Incorrect Answers'),
+                        ),
+                      ],
+                      source: _dataSource,
+                    ),
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Center(child: Text("${snapshot.error}"));
+              }
+              return Center(child: CircularProgressIndicator());
+            }),
+      ),
     );
   }
 }
 
-class _QuestionsDataSource extends DataTableSource {
+class _DataSource extends DataTableSource {
   final BuildContext context;
   List<Question> _questions;
 
-  _QuestionsDataSource(this.context) {
-    _questions = _createQuestions();
+  _DataSource(this.context) {
+    // DataStorage ds = DataStorage();
+    // Map quizMap = jsonDecode(ds.readData());
+    // Quiz quiz = Quiz.fromMap(quizMap);
+  }
+
+  void updateData(List dataList) {
+    _questions = dataList;
+    notifyListeners();
   }
 
   void _sort<T>(Comparable<T> Function(Question q) getField, bool ascending) {
@@ -127,6 +147,17 @@ class _QuestionsDataSource extends DataTableSource {
     final question = _questions[index];
     return DataRow.byIndex(
       index: index,
+      /*
+      selected: row.isSelected,
+      onSelectChanged: (value) {
+        if (row.isSelected != value) {
+          _selectedCount += value ? 1 : -1;
+          assert(_selectedCount >= 0);
+          row.isSelected = value;
+          notifyListeners();
+        }
+      },
+      */
       cells: [
         DataCell(Text(question.id.toString())),
         DataCell(Text(question.text)),
@@ -186,6 +217,17 @@ class _QuestionsDataSource extends DataTableSource {
           Option(value: 'Always'),
           Option(value: 'It isn\'t'),
         ],
+      ),
+    ];
+  }
+
+  List<Quiz> _createQuizzes() {
+    return <Quiz>[
+      Quiz(
+        id: 0,
+        title: 'Quiz with questions',
+        description: 'A collection of questions',
+        questions: _createQuestions(),
       ),
     ];
   }
