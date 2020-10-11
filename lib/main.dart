@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'globals.dart';
 import 'menu/drawer_menu.dart';
 
 void main() => runApp(QuizApp());
@@ -11,10 +12,11 @@ class QuizApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        brightness: Brightness.dark,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: Global.isDebugMode,
     );
   }
 }
