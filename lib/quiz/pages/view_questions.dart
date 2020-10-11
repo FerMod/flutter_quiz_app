@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -165,8 +164,8 @@ class _DataSource extends DataTableSource {
         DataCell(Text(question.rating.toString())),
         DataCell(Text(question.subject)),
         // DataCell(Text(question.image)),
-        DataCell(Text(question.options.firstWhere((e) => e.correct).value)),
-        DataCell(Text(question.options.where((e) => !e.correct).map((e) => e.value).join(', '))),
+        DataCell(Text(question.options.firstWhere((e) => e.isCorrect).value)),
+        DataCell(Text(question.options.where((e) => !e.isCorrect).map((e) => e.value).join(', '))),
       ],
     );
   }
@@ -189,7 +188,7 @@ class _DataSource extends DataTableSource {
         rating: 10,
         subject: 'Test',
         options: [
-          Option(value: 'Yes', correct: true),
+          Option(value: 'Yes', isCorrect: true),
           Option(value: 'No'),
         ],
       ),
@@ -200,7 +199,7 @@ class _DataSource extends DataTableSource {
         rating: 7,
         subject: 'Test',
         options: [
-          Option(value: 'Maybe', correct: true),
+          Option(value: 'Maybe', isCorrect: true),
           Option(value: 'Yes'),
           Option(value: 'No'),
         ],
@@ -212,7 +211,7 @@ class _DataSource extends DataTableSource {
         rating: 1,
         subject: 'Test',
         options: [
-          Option(value: 'It is', correct: true),
+          Option(value: 'It is', isCorrect: true),
           Option(value: 'Maybe'),
           Option(value: 'Always'),
           Option(value: 'It isn\'t'),

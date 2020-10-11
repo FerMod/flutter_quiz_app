@@ -62,30 +62,30 @@ class DBProvider {
 
     await db.execute('''CREATE TABLE Options (
       id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-      question_id INTEGER NOT NULL,
+      questionId INTEGER NOT NULL,
       value TEXT,
-      correct BOOLEAN,
-      FOREIGN KEY (question_id) REFERENCES Questions(id) ON DELETE CASCADE
+      isCorrect BOOLEAN DEFAULT 0,
+      FOREIGN KEY (questionId) REFERENCES Questions(id) ON DELETE CASCADE
     )''');
   }
 
   Future<void> _insertData(Database db) async {
     await db.insert('Questions', {'id': 1, 'text': 'Is this a question?', 'difficulty': 1, 'rating': 10, 'subject': 'Test', 'image': ''},
         conflictAlgorithm: ConflictAlgorithm.replace);
-    await db.insert('Options', {'id': 1, 'question_id': 1, 'value': 'Yes', 'correct': 1}, conflictAlgorithm: ConflictAlgorithm.replace);
-    await db.insert('Options', {'id': 2, 'question_id': 1, 'value': 'No', 'correct': 0}, conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('Options', {'id': 1, 'questionId': 1, 'value': 'Yes', 'isCorrect': 1}, conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('Options', {'id': 2, 'questionId': 1, 'value': 'No', 'isCorrect': 0}, conflictAlgorithm: ConflictAlgorithm.replace);
 
     await db.insert('Questions', {'id': 2, 'text': 'Another question in the quiz.', 'difficulty': 4, 'rating': 7, 'subject': 'Test', 'image': ''},
         conflictAlgorithm: ConflictAlgorithm.replace);
-    await db.insert('Options', {'id': 3, 'question_id': 2, 'value': 'Maybe', 'correct': 1}, conflictAlgorithm: ConflictAlgorithm.replace);
-    await db.insert('Options', {'id': 4, 'question_id': 2, 'value': 'Yes', 'correct': 0}, conflictAlgorithm: ConflictAlgorithm.replace);
-    await db.insert('Options', {'id': 5, 'question_id': 2, 'value': 'No', 'correct': 0}, conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('Options', {'id': 3, 'questionId': 2, 'value': 'Maybe', 'isCorrect': 1}, conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('Options', {'id': 4, 'questionId': 2, 'value': 'Yes', 'isCorrect': 0}, conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('Options', {'id': 5, 'questionId': 2, 'value': 'No', 'isCorrect': 0}, conflictAlgorithm: ConflictAlgorithm.replace);
 
     await db.insert('Questions', {'id': 3, 'text': 'Test question?', 'difficulty': 10, 'rating': 1, 'subject': 'Test', 'image': ''}, conflictAlgorithm: ConflictAlgorithm.replace);
-    await db.insert('Options', {'id': 6, 'question_id': 3, 'value': 'It is', 'correct': 1}, conflictAlgorithm: ConflictAlgorithm.replace);
-    await db.insert('Options', {'id': 7, 'question_id': 3, 'value': 'Maybe', 'correct': 0}, conflictAlgorithm: ConflictAlgorithm.replace);
-    await db.insert('Options', {'id': 8, 'question_id': 3, 'value': 'Always', 'correct': 0}, conflictAlgorithm: ConflictAlgorithm.replace);
-    await db.insert('Options', {'id': 9, 'question_id': 3, 'value': 'It isn\'t', 'correct': 0}, conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('Options', {'id': 6, 'questionId': 3, 'value': 'It is', 'isCorrect': 1}, conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('Options', {'id': 7, 'questionId': 3, 'value': 'Maybe', 'isCorrect': 0}, conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('Options', {'id': 8, 'questionId': 3, 'value': 'Always', 'isCorrect': 0}, conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('Options', {'id': 9, 'questionId': 3, 'value': 'It isn\'t', 'isCorrect': 0}, conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<void> close() async => database.then((db) => db.close());
@@ -95,8 +95,8 @@ class DBProvider {
     List<Map<String, dynamic>> questionsQuery = await db.query("Questions");
     List<Question> result = questionsQuery.map((row) => Question.fromMap(row)).toList();
     for (Question question in result) {
-      List<Map<String, dynamic>> optionsQuery = await db.query('Options', where: 'question_id = ?', whereArgs: [question.id]);
-      question.options = optionsQuery.map((row) => Option(value: row['value'], correct: row['correct'] == 1)).toList();
+      List<Map<String, dynamic>> optionsQuery = await db.query('Options', where: 'questionId = ?', whereArgs: [question.id]);
+      question.options = optionsQuery.map((row) => Option(value: row['value'], isCorrect: row['isCorrect'] == 1)).toList();
     }
     return result;
   }

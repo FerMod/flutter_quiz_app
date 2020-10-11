@@ -1,19 +1,26 @@
 class Option {
   String value;
-  bool correct;
+  bool isCorrect;
 
-  Option({this.value, this.correct = false});
+  Option({this.value, this.isCorrect = false});
 
-  Option.fromMap(Map data) {
-    value = data['value'] ?? '';
-    correct = data['correct'] ?? false;
+  factory Option.fromMap(Map<String, dynamic> data) {
+    return Option(
+      value: data['value'] ?? '',
+      isCorrect: data['isCorrect'] ?? false,
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'value': value,
-      'correct': correct,
+      'isCorrect': isCorrect,
     };
+  }
+
+  @override
+  String toString() {
+    return 'Option{value: "$value", isCorrect: $isCorrect}';
   }
 }
 
@@ -28,13 +35,15 @@ class Question {
 
   Question({this.id, this.text, this.difficulty, this.rating, this.subject, this.options});
 
-  Question.fromMap(Map data) {
-    id = data['id'] ?? 0; //TODO: Auto generate id
-    text = data['text'] ?? '';
-    difficulty = data['difficulty'] ?? 0;
-    rating = data['rating'] ?? 0;
-    subject = data['subject'] ?? '';
-    options = (data['options'] as List ?? []).map((v) => Option.fromMap(v)).toList();
+  factory Question.fromMap(Map<String, dynamic> data) {
+    return Question(
+      id: data['id'] ?? 0,
+      text: data['text'] ?? '',
+      difficulty: data['difficulty'] ?? 0,
+      rating: data['rating'] ?? 0,
+      subject: data['subject'] ?? '',
+      options: (data['options'] as List ?? []).map((v) => Option.fromMap(v)).toList(),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -46,6 +55,43 @@ class Question {
       'subject': subject,
       'options': options,
     };
+  }
+
+  @override
+  String toString() {
+    return 'Question{id: $id, text: "$text", difficulty: $difficulty, rating: $rating, subject: "$subject", options: $options}';
+  }
+}
+
+class Quiz {
+  int id;
+  String title;
+  String description;
+  List<Question> questions;
+
+  Quiz({this.id, this.title, this.description, this.questions});
+
+  factory Quiz.fromMap(Map<String, dynamic> data) {
+    return Quiz(
+      id: data['id'] ?? 0,
+      title: data['title'] ?? '',
+      description: data['description'] ?? '',
+      questions: (data['questions'] as List ?? []).map((v) => Question.fromMap(v)).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'questions': questions,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'Quiz{id: $id, title: "$title", description: "$description", questions: $questions}';
   }
 }
 
@@ -59,4 +105,8 @@ complexity
 subject
 img
 rating
+
+// Options fields //
+value
+isCorrect
 */
