@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../data/db.dart';
-import '../../data/models.dart';
-import '../../menu/drawer_menu.dart';
-import '../../menu/loader.dart';
+import '../data/db.dart';
+import '../data/models.dart';
+import '../menu/drawer_menu.dart';
+import '../menu/loader.dart';
 
 // ignore: prefer_mixin
 class QuizState with ChangeNotifier {

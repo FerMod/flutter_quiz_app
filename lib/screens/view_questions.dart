@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import '../../data/db.dart';
-import '../../data/models.dart';
-import '../../menu/drawer_menu.dart';
-import '../../menu/loader.dart';
+import '../data/db.dart';
+import '../data/models.dart';
+import '../menu/drawer_menu.dart';
+import '../menu/loader.dart';
 
 // Example code:
 // https://github.com/flutter/gallery/blob/master/lib/demos/material/data_table_demo.dart

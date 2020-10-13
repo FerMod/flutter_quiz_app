@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../quiz/pages/make_quiz.dart';
-import '../quiz/pages/view_questions.dart';
+import '../screens/make_quiz.dart';
+import '../screens/view_questions.dart';
 
 class DrawerMenu extends StatelessWidget {
   @override
