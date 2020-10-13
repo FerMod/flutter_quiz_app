@@ -48,65 +48,62 @@ class _QuestionListState extends State<QuestionList> {
         title: Text('Data Tables'),
       ),
       drawer: DrawerMenu(),
-      body: Scrollbar(
-        child: FutureBuilder<List<Question>>(
-            future: _fetchData(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                _dataSource.updateData(snapshot.data);
-                return ListView(
-                  padding: const EdgeInsets.all(16),
-                  children: [
-                    PaginatedDataTable(
-                      header: Text('Table Header'),
-                      rowsPerPage: _rowsPerPage,
-                      onRowsPerPageChanged: (value) => setState(() {
-                        _rowsPerPage = value;
-                      }),
-                      sortColumnIndex: _sortColumnIndex,
-                      sortAscending: _sortAscending,
-                      columns: [
-                        DataColumn(
-                          label: Text('Id'),
-                          numeric: true,
-                          onSort: (columnIndex, ascending) => _sort<num>((q) => q.id, columnIndex, ascending),
-                        ),
-                        DataColumn(
-                          label: Text('Question'),
-                        ),
-                        DataColumn(
-                          label: Text('Difficulty'),
-                          numeric: true,
-                          onSort: (columnIndex, ascending) => _sort<num>((q) => q.difficulty, columnIndex, ascending),
-                        ),
-                        DataColumn(
-                          label: Text('Rating'),
-                          numeric: true,
-                          onSort: (columnIndex, ascending) => _sort<num>((q) => q.rating, columnIndex, ascending),
-                        ),
-                        DataColumn(
-                          label: Text('Subject'),
-                          onSort: (columnIndex, ascending) => _sort<String>((q) => q.subject, columnIndex, ascending),
-                        ),
-                        // DataColumn(
-                        //   label: Text('Image'),
-                        // ),
-                        DataColumn(
-                          label: Text('Correct Answer'),
-                        ),
-                        DataColumn(
-                          label: Text('Incorrect Answers'),
-                        ),
-                      ],
-                      source: _dataSource,
-                    ),
-                  ],
-                );
-              } else if (snapshot.hasError) {
-                return Center(child: Text("${snapshot.error}"));
-              }
-              return Center(child: CircularProgressIndicator());
-            }),
+      body: FutureBuilder(
+        future: _fetchData(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            _dataSource.updateData(snapshot.data);
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: PaginatedDataTable(
+                header: Text('Table Header'),
+                rowsPerPage: _rowsPerPage,
+                onRowsPerPageChanged: (value) => setState(() {
+                  _rowsPerPage = value;
+                }),
+                sortColumnIndex: _sortColumnIndex,
+                sortAscending: _sortAscending,
+                columns: [
+                  DataColumn(
+                    label: Text('Id'),
+                    numeric: true,
+                    onSort: (columnIndex, ascending) => _sort<num>((q) => q.id, columnIndex, ascending),
+                  ),
+                  DataColumn(
+                    label: Text('Question'),
+                  ),
+                  DataColumn(
+                    label: Text('Difficulty'),
+                    numeric: true,
+                    onSort: (columnIndex, ascending) => _sort<num>((q) => q.difficulty, columnIndex, ascending),
+                  ),
+                  DataColumn(
+                    label: Text('Rating'),
+                    numeric: true,
+                    onSort: (columnIndex, ascending) => _sort<num>((q) => q.rating, columnIndex, ascending),
+                  ),
+                  DataColumn(
+                    label: Text('Subject'),
+                    onSort: (columnIndex, ascending) => _sort<String>((q) => q.subject, columnIndex, ascending),
+                  ),
+                  // DataColumn(
+                  //   label: Text('Image'),
+                  // ),
+                  DataColumn(
+                    label: Text('Correct Answer'),
+                  ),
+                  DataColumn(
+                    label: Text('Incorrect Answers'),
+                  ),
+                ],
+                source: _dataSource,
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Center(child: Text("${snapshot.error}"));
+          }
+          return LoadingScreen();
+        },
       ),
     );
   }
