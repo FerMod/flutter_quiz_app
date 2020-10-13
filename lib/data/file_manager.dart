@@ -1,8 +1,9 @@
+import 'dart:async' show Future;
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:async' show Future;
 
 class DataStorage {
   static final fileName = 'data.json';
@@ -19,10 +20,10 @@ class DataStorage {
       final file = await _localFile;
 
       // Read the file
-      String contents = await file.readAsString();
+      var contents = await file.readAsString();
 
       return contents;
-    } catch (e) {
+    } on Exception {
       // If encountering an error, return 0
       return null;
     }

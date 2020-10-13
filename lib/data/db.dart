@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'dart:io';
 
-import 'package:flutter_quiz_app/data/models.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../globals.dart';
+import 'models.dart';
 
 // https://www.tutorialspoint.com/flutter/flutter_database_concepts.htm
 // https://stackoverflow.com/questions/12649573/how-do-you-build-a-singleton-in-dart
@@ -28,26 +27,26 @@ class DBProvider {
   Future<Database> get database async => _database ??= await initDB();
 
   Future<Database> initDB() async {
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, databaseName);
+    var documentsDirectory = await getApplicationDocumentsDirectory();
+    var path = join(documentsDirectory.path, databaseName);
     return await openDatabase(path, version: 1, onConfigure: _onConfigureHandler, onCreate: _onCreateHandler, onOpen: _onOpenHandler);
   }
 
   Future<void> _onConfigureHandler(Database db) async {
     if (Global.isDebugMode) {
-      await Sqflite.devSetDebugModeOn(true);
+      await Sqflite.devSetDebugModeOn(true); // TODO: Implement logger
     }
     await db.execute("PRAGMA foreign_keys = ON");
+  }
+
+  Future<void> _onCreateHandler(Database db, int version) async {
+    await _createTables(db);
   }
 
   Future<void> _onOpenHandler(Database db) async {
     if (Global.isDebugMode) {
       await _insertData(db);
     }
-  }
-
-  Future<void> _onCreateHandler(Database db, int version) async {
-    await _createTables(db);
   }
 
   Future<void> _createTables(Database db) async {
@@ -92,10 +91,10 @@ class DBProvider {
 
   Future<List<Question>> getAllQuestions() async {
     final db = await database;
-    List<Map<String, dynamic>> questionsQuery = await db.query("Questions");
-    List<Question> result = questionsQuery.map((row) => Question.fromMap(row)).toList();
-    for (Question question in result) {
-      List<Map<String, dynamic>> optionsQuery = await db.query('Options', where: 'questionId = ?', whereArgs: [question.id]);
+    var questionsQuery = await db.query("Questions");
+    var result = questionsQuery.map((row) => Question.fromMap(row)).toList();
+    for (var question in result) {
+      var optionsQuery = await db.query('Options', where: 'questionId = ?', whereArgs: [question.id]);
       question.options = optionsQuery.map((row) => Option(value: row['value'], isCorrect: row['isCorrect'] == 1)).toList();
     }
     return result;

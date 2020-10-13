@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quiz_app/quiz/pages/view_questions.dart';
+
 import '../quiz/pages/make_quiz.dart';
+import '../quiz/pages/view_questions.dart';
 
 class DrawerMenu extends StatelessWidget {
   @override
@@ -41,7 +42,6 @@ class DrawerMenu extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                //MaterialPageRoute(builder: (context) => QuestionsDataTable()),
                 MaterialPageRoute(builder: (context) => QuestionList()),
               );
             },

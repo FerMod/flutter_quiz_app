@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_quiz_app/data/db.dart';
-import 'package:flutter_quiz_app/data/models.dart';
-import 'package:flutter_quiz_app/menu/drawer_menu.dart';
+
+import '../../data/db.dart';
+import '../../data/models.dart';
+import '../../menu/drawer_menu.dart';
+import '../../menu/loader.dart';
 
 // Example code:
 // https://github.com/flutter/gallery/blob/master/lib/demos/material/data_table_demo.dart
@@ -37,7 +39,7 @@ class _QuestionListState extends State<QuestionList> {
   }
 
   Future<List<Question>> _fetchData() async {
-    final DBProvider _db = DBProvider.instance;
+    final _db = DBProvider.instance;
     return await _db.getAllQuestions();
   }
 
@@ -111,13 +113,10 @@ class _QuestionListState extends State<QuestionList> {
 
 class _DataSource extends DataTableSource {
   final BuildContext context;
+  final int _selectedCount = 0;
   List<Question> _questions;
 
-  _DataSource(this.context) {
-    // DataStorage ds = DataStorage();
-    // Map quizMap = jsonDecode(ds.readData());
-    // Quiz quiz = Quiz.fromMap(quizMap);
-  }
+  _DataSource(this.context);
 
   void updateData(List dataList) {
     _questions = dataList;
@@ -132,8 +131,6 @@ class _DataSource extends DataTableSource {
     });
     notifyListeners();
   }
-
-  int _selectedCount = 0;
 
   @override
   DataRow getRow(int index) {
@@ -175,56 +172,4 @@ class _DataSource extends DataTableSource {
 
   @override
   int get selectedRowCount => _selectedCount;
-
-  List<Question> _createQuestions() {
-    return <Question>[
-      Question(
-        id: 1,
-        text: 'Is this a question?',
-        difficulty: 1,
-        rating: 10,
-        subject: 'Test',
-        options: [
-          Option(value: 'Yes', isCorrect: true),
-          Option(value: 'No'),
-        ],
-      ),
-      Question(
-        id: 2,
-        text: 'Another question in the quiz.',
-        difficulty: 4,
-        rating: 7,
-        subject: 'Test',
-        options: [
-          Option(value: 'Maybe', isCorrect: true),
-          Option(value: 'Yes'),
-          Option(value: 'No'),
-        ],
-      ),
-      Question(
-        id: 3,
-        text: 'Test question?',
-        difficulty: 10,
-        rating: 1,
-        subject: 'Test',
-        options: [
-          Option(value: 'It is', isCorrect: true),
-          Option(value: 'Maybe'),
-          Option(value: 'Always'),
-          Option(value: 'It isn\'t'),
-        ],
-      ),
-    ];
-  }
-
-  List<Quiz> _createQuizzes() {
-    return <Quiz>[
-      Quiz(
-        id: 0,
-        title: 'Quiz with questions',
-        description: 'A collection of questions',
-        questions: _createQuestions(),
-      ),
-    ];
-  }
 }
