@@ -13,8 +13,8 @@ jobs:
     name: Build APK
     runs-on: ubuntu-latest
 
-    container:
-      image: google/dart:latest
+    # container:
+    #   image: google/dart:latest
 
     steps:
       - uses: actions/checkout@v2
@@ -22,12 +22,10 @@ jobs:
         with:
           java-version: '12.x'
       - uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '1.22.1'
       - name: Install dependencies
         run: flutter pub get
-      # - name: Run tests
-      #   run: flutter test
+      - name: Run tests
+        run: flutter test
       - name: Build APK
         run: flutter build apk --debug --split-per-abi
       # - name: Push APK to Releases
