@@ -24,12 +24,10 @@ jobs:
         with:
           java-version: "12.x"
       - uses: subosito/flutter-action@v1
-        with:
-          channel: "stable"
       - name: Install dependencies
         run: flutter pub get
-      - name: Run tests
-        run: flutter test
+      # - name: Run tests
+      #   run: flutter test
       # - name: Push APK to Releases
       #   uses: ncipollo/release-action@v1
       #   with:
