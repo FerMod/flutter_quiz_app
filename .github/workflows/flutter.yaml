@@ -2,13 +2,9 @@ name: Flutter CI
 
 on:
   push:
-    branches:
-      #- master
-      - FerMod-CI
+    branches: [FerMod-CI]
   pull_request:
-    branches:
-      #- master
-      - FerMod-CI
+    branches: [FerMod-CI]
 
 jobs:
   build:
