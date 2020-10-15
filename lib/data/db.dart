@@ -7,9 +7,6 @@ import 'package:sqflite/sqflite.dart';
 import '../globals.dart';
 import 'models.dart';
 
-// https://www.tutorialspoint.com/flutter/flutter_database_concepts.htm
-// https://stackoverflow.com/questions/12649573/how-do-you-build-a-singleton-in-dart
-
 class DBProvider {
   String databaseName = 'database.db';
 
