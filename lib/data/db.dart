@@ -73,9 +73,9 @@ class DBProvider {
 
     await db.insert('Questions', {'id': 2, 'text': 'Another question in the quiz.', 'difficulty': 4, 'rating': 7, 'subject': 'Test', 'image': ''},
         conflictAlgorithm: ConflictAlgorithm.replace);
-    await db.insert('Options', {'id': 3, 'questionId': 2, 'value': 'Maybe', 'isCorrect': 1}, conflictAlgorithm: ConflictAlgorithm.replace);
     await db.insert('Options', {'id': 4, 'questionId': 2, 'value': 'Yes', 'isCorrect': 0}, conflictAlgorithm: ConflictAlgorithm.replace);
-    await db.insert('Options', {'id': 5, 'questionId': 2, 'value': 'No', 'isCorrect': 0}, conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('Options', {'id': 5, 'questionId': 2, 'value': 'No', 'isCorrect': 1}, conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('Options', {'id': 3, 'questionId': 2, 'value': 'Maybe', 'isCorrect': 0}, conflictAlgorithm: ConflictAlgorithm.replace);
 
     await db.insert('Questions', {'id': 3, 'text': 'Test question?', 'difficulty': 10, 'rating': 1, 'subject': 'Test', 'image': ''}, conflictAlgorithm: ConflictAlgorithm.replace);
     await db.insert('Options', {'id': 6, 'questionId': 3, 'value': 'It is', 'isCorrect': 1}, conflictAlgorithm: ConflictAlgorithm.replace);
