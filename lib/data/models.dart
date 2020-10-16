@@ -53,7 +53,7 @@ class Question {
       'difficulty': difficulty,
       'rating': rating,
       'subject': subject,
-      'options': options,
+      'options': options.map((e) => e.toJson()).toList(),
     };
   }
 
@@ -85,7 +85,7 @@ class Quiz {
       'id': id,
       'title': title,
       'description': description,
-      'questions': questions,
+      'questions': questions.map((e) => e.toJson()).toList(),
     };
   }
 
