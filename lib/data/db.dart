@@ -1,10 +1,11 @@
 import 'dart:async';
+import 'dart:developer' as developer;
 
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../globals.dart';
 import 'models.dart';
 
 class DBProvider {
@@ -30,7 +31,7 @@ class DBProvider {
   }
 
   Future<void> _onConfigureHandler(Database db) async {
-    if (Global.isDebugMode) {
+    if (kDebugMode) {
       await Sqflite.devSetDebugModeOn(true); // TODO: Implement logger
     }
     await db.execute("PRAGMA foreign_keys = ON");
@@ -41,12 +42,13 @@ class DBProvider {
   }
 
   Future<void> _onOpenHandler(Database db) async {
-    if (Global.isDebugMode) {
+    if (kDebugMode) {
       await _insertData(db);
     }
   }
 
   Future<void> _createTables(Database db) async {
+    developer.log('Create tables');
     await db.execute('''CREATE TABLE Questions (
       id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       text TEXT,
@@ -66,6 +68,7 @@ class DBProvider {
   }
 
   Future<void> _insertData(Database db) async {
+    developer.log('Insert data');
     await db.insert('Questions', {'id': 1, 'text': 'Is this a question?', 'difficulty': 1, 'rating': 10, 'subject': 'Test', 'image': ''},
         conflictAlgorithm: ConflictAlgorithm.replace);
     await db.insert('Options', {'id': 1, 'questionId': 1, 'value': 'Yes', 'isCorrect': 1}, conflictAlgorithm: ConflictAlgorithm.replace);

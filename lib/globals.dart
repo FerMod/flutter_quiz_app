@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class Global {
   Global._internal();
   static final Global _instance = Global._internal();
@@ -6,5 +8,6 @@ class Global {
     return _instance;
   }
 
-  static final bool isDebugMode = true;
+  /// A constant that is true if the application was compiled in debug mode.
+  static final bool isDebugMode = kDebugMode;
 }
