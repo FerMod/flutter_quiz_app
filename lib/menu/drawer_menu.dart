@@ -1,6 +1,7 @@
+
 import 'package:flutter/material.dart';
 
-import '../screens/make_quiz.dart';
+import '../screens/quiz_list.dart';
 import '../screens/view_questions.dart';
 
 class DrawerMenu extends StatelessWidget {
@@ -30,20 +31,23 @@ class DrawerMenu extends StatelessWidget {
             leading: Icon(Icons.live_help),
             title: Text('Quiz'),
             onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => MakeQuiz()),
-              );
+              Navigator.of(context)
+                ..pop()
+                ..push(
+                  // MaterialPageRoute(builder: (context) => MakeQuiz()),
+                  MaterialPageRoute(builder: (context) => QuizzesList()),
+                );
             },
           ),
           ListTile(
             leading: Icon(Icons.storage),
             title: Text('Questions'),
             onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => QuestionList()),
-              );
+              Navigator.of(context)
+                ..pop()
+                ..push(
+                  MaterialPageRoute(builder: (context) => QuestionList()),
+                );
             },
           ),
         ],

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../data/db.dart';
 import '../data/models.dart';
-import '../menu/drawer_menu.dart';
 import '../menu/loader.dart';
 
 // ignore: prefer_mixin
@@ -38,10 +37,9 @@ class MakeQuiz extends StatelessWidget {
   MakeQuiz({this.quizId});
   final int quizId;
 
-  Future<Quiz> _fetchData() async {
+  Future<Quiz> _fetchQuiz() async {
     final _db = DBProvider.instance;
-    final questions = await _db.getAllQuestions();
-    return Quiz(id: 1, title: 'Test quiz', description: 'Quiz containing test questions', questions: questions);
+    return await _db.getQuiz(quizId);
   }
 
   @override
@@ -49,7 +47,7 @@ class MakeQuiz extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => QuizState(),
       child: FutureBuilder(
-        future: _fetchData(),
+        future: _fetchQuiz(),
         builder: (context, snapshot) {
           var state = Provider.of<QuizState>(context);
 
@@ -60,9 +58,8 @@ class MakeQuiz extends StatelessWidget {
           Quiz quiz = snapshot.data;
           return Scaffold(
             appBar: AppBar(
-              title: Text('Data Tables'),
+              title: Text(quiz.title),
             ),
-            drawer: DrawerMenu(),
             body: PageView.builder(
               physics: NeverScrollableScrollPhysics(),
               controller: state.controller,
@@ -206,17 +203,13 @@ class QuestionPage extends StatelessWidget {
       context: context,
       builder: (context) {
         return Container(
-          //height: 250,
+          height: 250,
           padding: EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(isCorrect ? 'Good Job!' : 'Wrong'),
-              // Text(
-              //   'Option details text. Not Implemented.',
-              //   style: TextStyle(fontSize: 18, color: Colors.white54),
-              // ),
               ElevatedButton(
                 style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(isCorrect ? Colors.green : Colors.red)),
                 child: Text(
