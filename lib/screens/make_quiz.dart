@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../app_localizations.dart';
 import '../data/db.dart';
 import '../data/models.dart';
 import '../menu/loader.dart';
@@ -103,7 +105,7 @@ class StartPage extends StatelessWidget {
             children: [
               ElevatedButton.icon(
                 onPressed: state.nextPage,
-                label: Text('Start Quiz!'),
+                label: Text(AppLocalizations.of(context).startQuiz),
                 icon: Icon(Icons.poll),
                 style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.green)),
               )
@@ -127,7 +129,7 @@ class CongratsPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Congrats! You completed the "${quiz.title}"! quiz.',
+            AppLocalizations.of(context).congratsQuiz(quiz.title),
             textAlign: TextAlign.center,
           ),
         ],
@@ -209,11 +211,11 @@ class QuestionPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(isCorrect ? 'Good Job!' : 'Wrong'),
+              Text(isCorrect ? AppLocalizations.of(context).goodJob : AppLocalizations.of(context).wrong),
               ElevatedButton(
                 style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(isCorrect ? Colors.green : Colors.red)),
                 child: Text(
-                  isCorrect ? 'Onward!' : 'Try Again . . .',
+                  isCorrect ? AppLocalizations.of(context).onward : AppLocalizations.of(context).tryAgain,
                   style: TextStyle(
                     color: Colors.white,
                     letterSpacing: 1.5,

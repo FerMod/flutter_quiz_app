@@ -19,8 +19,24 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'es';
 
+  static m0(quizName) => "Felicidades! Has completado \"${quizName}\"!";
+
+  static m1(howMany) => "${Intl.plural(howMany, one: 'Pregunta', other: 'Preguntas')}";
+
+  static m2(howMany) => "${Intl.plural(howMany, one: 'Questionario', other: 'Questionarios')}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "title" : MessageLookupByLibrary.simpleMessage("Hola Mundo")
+    "appTitle" : MessageLookupByLibrary.simpleMessage("App de Questionarios"),
+    "congratsQuiz" : m0,
+    "drawerTitle" : MessageLookupByLibrary.simpleMessage("Menú"),
+    "goodJob" : MessageLookupByLibrary.simpleMessage("Buen Trabajo!"),
+    "homepage" : MessageLookupByLibrary.simpleMessage("Página inicial"),
+    "onward" : MessageLookupByLibrary.simpleMessage("Adelante!"),
+    "question" : m1,
+    "quiz" : m2,
+    "startQuiz" : MessageLookupByLibrary.simpleMessage("Empezar Questionario!"),
+    "tryAgain" : MessageLookupByLibrary.simpleMessage("Intentalo de nuevo..."),
+    "wrong" : MessageLookupByLibrary.simpleMessage("Mal")
   };
 }

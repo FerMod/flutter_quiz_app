@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 
+import '../app_localizations.dart';
 import '../screens/quiz_list.dart';
 import '../screens/view_questions.dart';
 
@@ -12,42 +12,38 @@ class DrawerMenu extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           Container(
+            height: 100,
+            padding: EdgeInsets.zero,
+            margin: EdgeInsets.zero,
             child: DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Theme.of(context).primaryColor,
               ),
               child: Text(
-                'Drawer Header',
+                AppLocalizations.of(context).drawerTitle,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
+                  fontSize: Theme.of(context).textTheme.headline5.fontSize,
                 ),
               ),
             ),
-            padding: EdgeInsets.zero,
-            margin: EdgeInsets.zero,
           ),
           ListTile(
             leading: Icon(Icons.live_help),
-            title: Text('Quiz'),
+            title: Text(AppLocalizations.of(context).quizzes),
             onTap: () {
-              Navigator.of(context)
-                ..pop()
-                ..push(
-                  // MaterialPageRoute(builder: (context) => MakeQuiz()),
-                  MaterialPageRoute(builder: (context) => QuizzesList()),
-                );
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => QuizzesList()),
+              );
             },
           ),
           ListTile(
             leading: Icon(Icons.storage),
-            title: Text('Questions'),
+            title: Text(AppLocalizations.of(context).questions),
             onTap: () {
-              Navigator.of(context)
-                ..pop()
-                ..push(
-                  MaterialPageRoute(builder: (context) => QuestionList()),
-                );
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => QuestionList()),
+              );
             },
           ),
         ],
