@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quiz_app/screens/home_page.dart';
 
 import '../app_localizations.dart';
 import '../screens/quiz_list.dart';
@@ -13,7 +14,7 @@ class DrawerMenu extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           Container(
-            height: 100,
+            height: 90,
             padding: EdgeInsets.zero,
             margin: EdgeInsets.zero,
             child: DrawerHeader(
@@ -29,6 +30,16 @@ class DrawerMenu extends StatelessWidget {
               ),
             ),
           ),
+          ListTile(
+            leading: Icon(Icons.home),
+            title: Text(localizations.homepage),
+            onTap: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            },
+          ),
+          Divider(),
           ListTile(
             leading: Icon(Icons.live_help),
             title: Text(localizations.quizzes),
