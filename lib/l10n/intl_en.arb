@@ -17,6 +17,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "language": "Language:",
+  "@language": {
+    "description": "Text for language dropdown button",
+    "type": "text",
+    "placeholders": {}
+  },
   "quiz": "{howMany,plural, =1{Quiz}other{Quizzes}}",
   "@quiz": {
     "description": "Quiz text",

@@ -2,6 +2,7 @@
   "appTitle": "App de Questionarios",
   "drawerTitle": "Menú",
   "homepage": "Página inicial",
+  "language": "Idioma:",
   "quiz": "{howMany,plural, =1{Questionario}other{Questionarios}}",
   "question": "{howMany,plural, =1{Pregunta}other{Preguntas}}",
   "startQuiz": "Empezar Questionario!",
