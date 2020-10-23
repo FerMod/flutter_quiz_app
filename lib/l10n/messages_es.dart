@@ -31,7 +31,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "congratsQuiz" : m0,
     "drawerTitle" : MessageLookupByLibrary.simpleMessage("Menú"),
     "goodJob" : MessageLookupByLibrary.simpleMessage("Buen Trabajo!"),
-    "homepage" : MessageLookupByLibrary.simpleMessage("Página inicial"),
+    "homepage" : MessageLookupByLibrary.simpleMessage("Página Principal"),
     "language" : MessageLookupByLibrary.simpleMessage("Idioma:"),
     "onward" : MessageLookupByLibrary.simpleMessage("Adelante!"),
     "question" : m1,
