@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'app_localizations.dart';
-import 'menu/drawer_menu.dart';
+import 'data/app_options.dart';
+import 'model_binding.dart';
+import 'screens/home_page.dart';
 
 void main() => runApp(QuizApp());
 
@@ -10,42 +12,52 @@ class QuizApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      onGenerateTitle: (context) => AppLocalizations.of(context).title,
+    return ModelBinding(
+      initialModel: AppOptions(
+        themeMode: ThemeMode.system,
+        locale: null,
+        platform: defaultTargetPlatform,
+      ),
+      child: Builder(
+        builder: (context) {
+          return MaterialApp(
+            onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
+            // localizationsDelegates: [
+            //   const AppLocalizationsDelegate(),
+            //   GlobalMaterialLocalizations.delegate,
+            //   GlobalWidgetsLocalizations.delegate,
+            // ],
+            // supportedLocales: Global.supportedLocales.values,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: AppOptions.of(context).locale,
+            localeResolutionCallback: (locale, supportedLocales) {
+              deviceLocale = locale;
+              return locale;
+            },
+            themeMode: AppOptions.of(context).themeMode,
+            darkTheme: ThemeData.dark(),
+            home: HomePage(),
+          );
+        },
+      ),
+    );
+    /* MaterialApp(
+      onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       localizationsDelegates: [
         const AppLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: [
-        const Locale('en', ''),
-        const Locale('es', ''),
+        const Locale('en'),
+        const Locale('es'),
       ],
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+      
+      home: ModelBinding<AppOptions>(
+        initialModel: const AppOptions(),
+        child: HomePageTest(),
       ),
-      home: HomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  HomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      drawer: DrawerMenu(),
-      body: Center(
-        child: Text('Homepage'),
-      ),
-    );
+    ); */
   }
 }
