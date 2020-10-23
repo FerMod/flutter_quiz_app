@@ -7,6 +7,7 @@ import '../screens/view_questions.dart';
 class DrawerMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -20,7 +21,7 @@ class DrawerMenu extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
               ),
               child: Text(
-                AppLocalizations.of(context).drawerTitle,
+                localizations.drawerTitle,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: Theme.of(context).textTheme.headline5.fontSize,
@@ -30,7 +31,7 @@ class DrawerMenu extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.live_help),
-            title: Text(AppLocalizations.of(context).quizzes),
+            title: Text(localizations.quizzes),
             onTap: () {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => QuizzesList()),
@@ -39,7 +40,7 @@ class DrawerMenu extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.storage),
-            title: Text(AppLocalizations.of(context).questions),
+            title: Text(localizations.questions),
             onTap: () {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => QuestionList()),

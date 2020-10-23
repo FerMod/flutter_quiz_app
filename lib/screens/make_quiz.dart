@@ -90,6 +90,7 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     var state = Provider.of<QuizState>(context);
 
     return Container(
@@ -105,7 +106,7 @@ class StartPage extends StatelessWidget {
             children: [
               ElevatedButton.icon(
                 onPressed: state.nextPage,
-                label: Text(AppLocalizations.of(context).startQuiz),
+                label: Text(localizations.startQuiz),
                 icon: Icon(Icons.poll),
                 style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.green)),
               )
@@ -123,13 +124,14 @@ class CongratsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return Padding(
       padding: EdgeInsets.all(8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            AppLocalizations.of(context).congratsQuiz(quiz.title),
+            localizations.congratsQuiz(quiz.title),
             textAlign: TextAlign.center,
           ),
         ],
@@ -199,6 +201,7 @@ class QuestionPage extends StatelessWidget {
 
   /// Bottom sheet shown when Question is answered
   void _bottomSheet(BuildContext context, Option option, QuizState state) {
+    final localizations = AppLocalizations.of(context);
     var isCorrect = option.isCorrect;
 
     showModalBottomSheet(
@@ -211,11 +214,11 @@ class QuestionPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(isCorrect ? AppLocalizations.of(context).goodJob : AppLocalizations.of(context).wrong),
+              Text(isCorrect ? localizations.goodJob : localizations.wrong),
               ElevatedButton(
                 style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(isCorrect ? Colors.green : Colors.red)),
                 child: Text(
-                  isCorrect ? AppLocalizations.of(context).onward : AppLocalizations.of(context).tryAgain,
+                  isCorrect ? localizations.onward : localizations.tryAgain,
                   style: TextStyle(
                     color: Colors.white,
                     letterSpacing: 1.5,
