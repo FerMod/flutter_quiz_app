@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'app_localizations.dart';
 import 'data/app_options.dart';
@@ -22,12 +23,6 @@ class QuizApp extends StatelessWidget {
         builder: (context) {
           return MaterialApp(
             onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-            // localizationsDelegates: [
-            //   const AppLocalizationsDelegate(),
-            //   GlobalMaterialLocalizations.delegate,
-            //   GlobalWidgetsLocalizations.delegate,
-            // ],
-            // supportedLocales: Global.supportedLocales.values,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             locale: AppOptions.of(context).locale,
@@ -42,22 +37,5 @@ class QuizApp extends StatelessWidget {
         },
       ),
     );
-    /* MaterialApp(
-      onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-      localizationsDelegates: [
-        const AppLocalizationsDelegate(),
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('en'),
-        const Locale('es'),
-      ],
-      
-      home: ModelBinding<AppOptions>(
-        initialModel: const AppOptions(),
-        child: HomePageTest(),
-      ),
-    ); */
   }
 }
