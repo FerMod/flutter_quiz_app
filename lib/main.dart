@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'app_localizations.dart';
 import 'data/app_options.dart';
@@ -10,7 +9,7 @@ import 'screens/home_page.dart';
 void main() => runApp(QuizApp());
 
 class QuizApp extends StatelessWidget {
-  // This widget is the root of your application.
+  // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
     return ModelBinding(
