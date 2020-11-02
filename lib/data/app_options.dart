@@ -8,7 +8,10 @@ Locale _deviceLocale;
 Locale get deviceLocale => _deviceLocale;
 set deviceLocale(Locale locale) => _deviceLocale ??= locale;
 
+/// The settings of the app.
+@immutable
 class AppOptions {
+  /// Creates the settings used in the app.
   const AppOptions({
     this.themeMode,
     Locale locale,
@@ -34,9 +37,13 @@ class AppOptions {
         brightness = WidgetsBinding.instance.window.platformBrightness;
     }
 
-    return brightness == Brightness.dark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
+    return brightness == Brightness.dark
+        ? SystemUiOverlayStyle.light
+        : SystemUiOverlayStyle.dark;
   }
 
+  /// Creates a copy of this settings object but with the given fields replaced
+  /// with the new values.
   AppOptions copyWith({
     ThemeMode themeMode,
     Locale locale,
@@ -58,23 +65,27 @@ class AppOptions {
   }
 
   @override
-  // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     if (identical(this, other)) {
       return true;
     }
     if (other.runtimeType != runtimeType) {
       return false;
     }
-    final AppOptions otherModel = other;
-    return otherModel.themeMode == themeMode && otherModel.platform == platform && otherModel.locale == locale;
+    final AppOptions appOptions = other;
+    return appOptions.themeMode == themeMode &&
+        appOptions.platform == platform &&
+        appOptions.locale == locale;
   }
 
   @override
-  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => hashValues(
         themeMode,
         locale,
         platform,
       );
+
+  @override
+  String toString() =>
+      '${objectRuntimeType(this, 'AppOptions')}($themeMode, $locale, $platform)';
 }
