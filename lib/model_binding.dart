@@ -16,9 +16,13 @@ class _ModelBindingScope<T> extends InheritedWidget {
   final _ModelBindingState<T> modelBindingState;
 
   @override
-  bool updateShouldNotify(_ModelBindingScope oldWidget) => true;
+  bool updateShouldNotify(_ModelBindingScope oldWidget) =>
+      modelBindingState != oldWidget.modelBindingState;
 }
 
+/// A generic implementation of an [InheritedWidget].
+///
+/// Any descendant of this widget can obtain `initialModel` using [ModelBinding.of].
 class ModelBinding<T> extends StatefulWidget {
   ModelBinding({
     Key key,
@@ -27,7 +31,7 @@ class ModelBinding<T> extends StatefulWidget {
   })  : assert(initialModel != null),
         super(key: key);
 
-  /// The model returned by [Localizations.of] will be specific to this initial model.
+  /// The model returned by [ModelBinding.of] will be specific to this initial model.
   final T initialModel;
 
   /// The widget below this widget in the tree.
@@ -37,16 +41,21 @@ class ModelBinding<T> extends StatefulWidget {
 
   _ModelBindingState<T> createState() => _ModelBindingState<T>();
 
+  /// Obtains the nearest [ModelBinding] up its widget tree and returns its value.
   static T of<T>(BuildContext context) {
     assert(context != null);
-    final scope = context.dependOnInheritedWidgetOfExactType<_ModelBindingScope<T>>();
+    final scope =
+        context.dependOnInheritedWidgetOfExactType<_ModelBindingScope<T>>();
     return scope?.modelBindingState?.currentModel;
   }
 
+  /// Update the model with the given one and notify the framework that the
+  /// internal state of this object has changed.
   static void update<T>(BuildContext context, T newModel) {
     assert(context != null);
     assert(newModel != null);
-    final scope = context.dependOnInheritedWidgetOfExactType<_ModelBindingScope<T>>();
+    final scope =
+        context.dependOnInheritedWidgetOfExactType<_ModelBindingScope<T>>();
     assert(scope != null, 'a ModelBinding<T> ancestor was not found');
     scope?.modelBindingState?.updateModel(newModel);
   }
