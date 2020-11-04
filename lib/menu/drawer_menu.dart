@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quiz_app/screens/home_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../app_localizations.dart';
+import '../screens/home_page.dart';
 import '../screens/quiz_list.dart';
 import '../screens/view_questions.dart';
 
@@ -42,7 +42,7 @@ class DrawerMenu extends StatelessWidget {
           Divider(),
           ListTile(
             leading: Icon(Icons.live_help),
-            title: Text(localizations.quizzes),
+            title: Text(localizations.quiz(2)),
             onTap: () {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => QuizzesList()),
@@ -51,7 +51,7 @@ class DrawerMenu extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.storage),
-            title: Text(localizations.questions),
+            title: Text(localizations.question(2)),
             onTap: () {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => QuestionList()),
