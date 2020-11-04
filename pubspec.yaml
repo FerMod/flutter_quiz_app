@@ -1,5 +1,6 @@
 name: flutter_quiz_app
 description: A Flutter application.
+repository: https://github.com/FerMod/flutter_quiz_app
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
