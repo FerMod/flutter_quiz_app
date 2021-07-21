@@ -27,7 +27,13 @@ class DBProvider {
   Future<Database> initDB() async {
     var documentsDirectory = await getApplicationDocumentsDirectory();
     var path = join(documentsDirectory.path, databaseName);
-    return await openDatabase(path, version: 1, onConfigure: _onConfigureHandler, onCreate: _onCreateHandler, onOpen: _onOpenHandler);
+    return await openDatabase(
+      path,
+      version: 1,
+      onConfigure: _onConfigureHandler,
+      onCreate: _onCreateHandler,
+      onOpen: _onOpenHandler,
+    );
   }
 
   Future<void> _onConfigureHandler(Database db) async {

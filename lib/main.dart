@@ -19,21 +19,19 @@ class QuizApp extends StatelessWidget {
         platform: defaultTargetPlatform,
       ),
       child: Builder(
-        builder: (context) {
-          return MaterialApp(
-            onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            locale: AppOptions.of(context).locale,
-            localeResolutionCallback: (locale, supportedLocales) {
-              deviceLocale = locale;
-              return locale;
-            },
-            themeMode: AppOptions.of(context).themeMode,
-            darkTheme: ThemeData.dark(),
-            home: HomePage(),
-          );
-        },
+        builder: (context) => MaterialApp(
+          onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: AppOptions.of(context).locale,
+          localeResolutionCallback: (locale, supportedLocales) {
+            deviceLocale = locale;
+            return locale;
+          },
+          themeMode: AppOptions.of(context).themeMode,
+          darkTheme: ThemeData.dark(),
+          home: HomePage(),
+        ),
       ),
     );
   }

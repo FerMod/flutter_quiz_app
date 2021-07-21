@@ -43,8 +43,7 @@ class ModelBinding<T> extends StatefulWidget {
   /// Obtains the nearest [ModelBinding] up its widget tree and returns its value.
   static T of<T>(BuildContext context) {
     assert(context != null);
-    final scope =
-        context.dependOnInheritedWidgetOfExactType<_ModelBindingScope<T>>();
+    final scope = context.dependOnInheritedWidgetOfExactType<_ModelBindingScope<T>>();
     return scope?.modelBindingState?.currentModel;
   }
 
@@ -53,9 +52,8 @@ class ModelBinding<T> extends StatefulWidget {
   static void update<T>(BuildContext context, T newModel) {
     assert(context != null);
     assert(newModel != null);
-    final scope =
-        context.dependOnInheritedWidgetOfExactType<_ModelBindingScope<T>>();
-    assert(scope != null, 'a ModelBinding<T> ancestor was not found');
+    final scope = context.dependOnInheritedWidgetOfExactType<_ModelBindingScope<T>>();
+    assert(scope != null, 'a ModelBinding<$T> ancestor was not found');
     scope?.modelBindingState?.updateModel(newModel);
   }
 

@@ -12,7 +12,7 @@ class DrawerMenu extends StatelessWidget {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
-        children: <Widget>[
+        children: [
           Container(
             height: 90,
             padding: EdgeInsets.zero,
@@ -34,7 +34,7 @@ class DrawerMenu extends StatelessWidget {
             leading: Icon(Icons.home),
             title: Text(localizations.homepage),
             onTap: () {
-              Navigator.of(context).pushReplacement(
+              Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => HomePage()),
               );
             },
@@ -44,7 +44,7 @@ class DrawerMenu extends StatelessWidget {
             leading: Icon(Icons.live_help),
             title: Text(localizations.quiz(2)),
             onTap: () {
-              Navigator.of(context).pushReplacement(
+              Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => QuizzesList()),
               );
             },
@@ -53,7 +53,7 @@ class DrawerMenu extends StatelessWidget {
             leading: Icon(Icons.storage),
             title: Text(localizations.question(2)),
             onTap: () {
-              Navigator.of(context).pushReplacement(
+              Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => QuestionList()),
               );
             },
