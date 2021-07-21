@@ -1,38 +1,37 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'menu/drawer_menu.dart';
+import 'data/app_options.dart';
+import 'model_binding.dart';
+import 'screens/home_page.dart';
 
 void main() => runApp(QuizApp());
 
 class QuizApp extends StatelessWidget {
-  // This widget is the root of your application.
+  // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return ModelBinding(
+      initialModel: AppOptions(
+        themeMode: ThemeMode.system,
+        locale: null,
+        platform: defaultTargetPlatform,
       ),
-      home: HomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  HomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      drawer: DrawerMenu(),
-      body: Center(
-        child: Text('Homepage'),
+      child: Builder(
+        builder: (context) => MaterialApp(
+          onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: AppOptions.of(context).locale,
+          localeResolutionCallback: (locale, supportedLocales) {
+            deviceLocale = locale;
+            return locale;
+          },
+          themeMode: AppOptions.of(context).themeMode,
+          darkTheme: ThemeData.dark(),
+          home: HomePage(),
+        ),
       ),
     );
   }

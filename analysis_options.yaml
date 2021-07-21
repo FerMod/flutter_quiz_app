@@ -1,5 +1,9 @@
 include: package:effective_dart/analysis_options.yaml
 
+analyzer:
+  exclude:
+    - lib/l10n/messages_*.dart
+
 linter:
   rules:
     public_member_api_docs: false

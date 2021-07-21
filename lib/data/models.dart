@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class Option {
   String value;
   bool isCorrect;
@@ -19,9 +21,7 @@ class Option {
   }
 
   @override
-  String toString() {
-    return 'Option{value: "$value", isCorrect: $isCorrect}';
-  }
+  String toString() => '${objectRuntimeType(this, 'Option')}("$value", $isCorrect)';
 }
 
 class Question {
@@ -58,9 +58,7 @@ class Question {
   }
 
   @override
-  String toString() {
-    return 'Question{id: $id, text: "$text", difficulty: $difficulty, rating: $rating, subject: "$subject", options: $options}';
-  }
+  String toString() => '${objectRuntimeType(this, 'Question')}($id, "$text", $difficulty, $rating, "$subject", $options)';
 }
 
 class Quiz {
@@ -91,7 +89,7 @@ class Quiz {
 
   @override
   String toString() {
-    return 'Quiz{id: $id, title: "$title", description: "$description", questions: $questions}';
+    return '${objectRuntimeType(this, 'Quiz')}($id, "$title", "$description", $questions}';
   }
 }
 
@@ -100,7 +98,7 @@ class Quiz {
 id
 email
 statement
-options -> ( option1 , option2, ...)
+options -> (option1 , option2, ...)
 complexity
 subject
 img

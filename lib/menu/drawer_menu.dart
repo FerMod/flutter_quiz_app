@@ -1,47 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../screens/make_quiz.dart';
+import '../screens/home_page.dart';
+import '../screens/quiz_list.dart';
 import '../screens/view_questions.dart';
 
 class DrawerMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
-        children: <Widget>[
+        children: [
           Container(
+            height: 90,
+            padding: EdgeInsets.zero,
+            margin: EdgeInsets.zero,
             child: DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Theme.of(context).primaryColor,
               ),
               child: Text(
-                'Drawer Header',
+                localizations.drawerTitle,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
+                  fontSize: Theme.of(context).textTheme.headline5.fontSize,
                 ),
               ),
             ),
-            padding: EdgeInsets.zero,
-            margin: EdgeInsets.zero,
           ),
           ListTile(
-            leading: Icon(Icons.live_help),
-            title: Text('Quiz'),
+            leading: Icon(Icons.home),
+            title: Text(localizations.homepage),
             onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => MakeQuiz()),
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.live_help),
+            title: Text(localizations.quiz(2)),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => QuizzesList()),
               );
             },
           ),
           ListTile(
             leading: Icon(Icons.storage),
-            title: Text('Questions'),
+            title: Text(localizations.question(2)),
             onTap: () {
-              Navigator.pushReplacement(
-                context,
+              Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => QuestionList()),
               );
             },

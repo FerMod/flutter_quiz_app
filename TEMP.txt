@@ -1,0 +1,2 @@
+https://github.com/firefox-devtools/vscode-firefox-debug
+https://code.visualstudio.com/docs/editor/debugging
